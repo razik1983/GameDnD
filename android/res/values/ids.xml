@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- app_id -->
+    <string name="app_id">com.example.razikgames_dndgame</string>
+
+    <!-- package_name -->
+    <string name="package_name">com.example.razikgames_dndgame</string>
+
+</resources>
