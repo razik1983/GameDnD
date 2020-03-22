@@ -3,6 +3,9 @@ package com.example.razikgames_dndgame
 import android.os.Bundle
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
+import com.google.android.gms.common.api.GoogleApiClient
+import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteDatabase
 
 
 class AndroidLauncher : AndroidApplication() {
@@ -25,3 +28,4 @@ class AndroidLauncher : AndroidApplication() {
 
 
 }
+
