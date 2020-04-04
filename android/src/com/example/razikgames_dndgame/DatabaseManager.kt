@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 
-class DatabaseManager {
+/*class DatabaseManager {
     private var mOpenCounter = 0
     private var mDatabase: SQLiteDatabase? = null
     @Synchronized
@@ -44,4 +44,6 @@ class DatabaseManager {
             return instance
         }
     }
-}
+}*/
+
+
