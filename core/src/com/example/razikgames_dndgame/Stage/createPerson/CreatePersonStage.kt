@@ -1,5 +1,6 @@
 package com.example.razikgames_dndgame.Stage.createPerson
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -11,9 +12,25 @@ import com.example.razikgames_dndgame.*
 import com.example.razikgames_dndgame.AppConstants.ScreenHeight
 import com.example.razikgames_dndgame.AppConstants.ScreenWidth
 import com.example.razikgames_dndgame.CreatePersonMenuVariables.genderCompletion
+import com.example.razikgames_dndgame.CreatePersonMenuVariables.raceCompletion
+
+class CreatePersonStage private constructor() : Stage(viewport) {
+    private object SingletonHolder {
+        val HOLDER_INSTANCE = CreatePersonStage()
+    }
+    companion object {
+        val instance: CreatePersonStage
+            get() {
+                return SingletonHolder.HOLDER_INSTANCE
+            }
+    }
+//--------------------------------------------------------------------------------------------------
+    //---создание кнопок
+    val genderBtn = ImageTextButton("Пол", menuBtnStyle_700_160("gold", 0))
+    val raceBtn = ImageTextButton("Раса", menuBtnStyle_700_160(if (genderCompletion == 1) "gold" else "dark_grey", 0))
 
 
-class CreatePersonStage: Stage(viewport) {
+//--------------------------------------------------------------------------------------------------
     init {
         val stageLayout = Table()
         addActor(stageLayout.apply {
@@ -42,7 +59,7 @@ class CreatePersonStage: Stage(viewport) {
                         row().let {
                             val genderMenu = Container<WidgetGroup>()
                             add(genderMenu.apply {
-                                val genderBtn = ImageTextButton("Пол", menuBtnStyle_700_160("gold", 0))
+                                //---ПОЛ
                                 genderBtn.addListener(object : ChangeListener() {
                                     override fun changed(event: ChangeEvent?, actor: Actor?) {
                                         currentScreen = ScreenManager("gender")
@@ -55,14 +72,12 @@ class CreatePersonStage: Stage(viewport) {
                         row().let {
                             val raceMenu = Container<WidgetGroup>()
                             add(raceMenu.apply {
-                                var raceColor : String = if (genderCompletion == 1) "gold" else "dark_grey"
-                                val raceBtn = ImageTextButton("Раса", menuBtnStyle_700_160(raceColor, 0))
-                                raceBtn.isDisabled = if (genderCompletion == 1) false else true
-                                /*raceBtn.addListener(object : ChangeListener() {
+                                //---РАСА
+                                raceBtn.addListener(object : ChangeListener() {
                                     override fun changed(event: ChangeEvent?, actor: Actor?) {
-                                        //currentScreen = ScreenManager("new")
+                                        if(genderCompletion == 1) currentScreen = ScreenManager("gender")
                                     }
-                                })*/
+                                })
                                 actor = raceBtn
                             }).padBottom(ScreenHeight *0.01f).expandX
                         }
@@ -70,7 +85,9 @@ class CreatePersonStage: Stage(viewport) {
                         row().let {
                             val portraitMenu = Container<WidgetGroup>()
                             add(portraitMenu.apply {
-                                val portraitBtn = ImageTextButton("Портрет", menuBtnStyle_700_160("dark_grey", 0))
+                                var portraitColor : String = if (raceCompletion == 1) "gold" else "dark_grey"
+                                val portraitBtn = ImageTextButton("Портрет", menuBtnStyle_700_160(portraitColor, 0))
+                                //portraitBtn.isDisabled = if (raceCompletion == 1) false else true
                                 /*portraitBtn.addListener(object : ChangeListener() {
                                     override fun changed(event: ChangeEvent?, actor: Actor?) {
                                         //currentScreen = ScreenManager("new")
@@ -194,4 +211,9 @@ class CreatePersonStage: Stage(viewport) {
             }
         })
     }
+    fun changeBtn() {
+        raceBtn.style = menuBtnStyle_700_160(if(genderCompletion == 1) "gold" else "dark_grey", 0)
+    }
+
 }
+

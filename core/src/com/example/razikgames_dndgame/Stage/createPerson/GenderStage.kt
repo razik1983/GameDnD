@@ -23,25 +23,32 @@ import com.example.razikgames_dndgame.MenuGenderVariables.manFocus
 import com.example.razikgames_dndgame.MenuGenderVariables.selectionGender
 import com.example.razikgames_dndgame.MenuGenderVariables.womanFocus
 
-
-
-class GenderStage: Stage(viewport) {
-
+class GenderStage private constructor() : Stage() {
+    private object SingletonHolder {
+        val HOLDER_INSTANCE = GenderStage()
+    }
+    companion object {
+        val instance: GenderStage
+            get() {
+                return SingletonHolder.HOLDER_INSTANCE
+            }
+        val test: ITest = TODO()
+    }
     init {
         val stageLayout = Stack()
         addActor(stageLayout.apply {
             debugAll()
             setFillParent(true)
             val genderMenu = Container<WidgetGroup>()
+            val genderInfo = Container<WidgetGroup>()
             add(genderMenu.apply {
                 actor = Table().apply {
                     fill()
-                    //--------------TOP---------------------------------------------------------------------------------
+//--------------TOP---------------------------------------------------------------------------------
                     row().let {
                         val topPanel = Container<Widget>()
                         val labelStyle = Label.LabelStyle()
                         labelStyle.font = Fonts.getFont1(ScreenWidth *0.06f)
-
                         add(topPanel.apply {
                             background = TextureRegionDrawable(TextureRegion(Texture("picture/main_menu/main_frame_top.png")))
                             //fill()
@@ -61,27 +68,22 @@ class GenderStage: Stage(viewport) {
                                 row().let {
                                     val manMenu = Container<WidgetGroup>()
                                     add(manMenu.apply {
-
-
                                         manBtn.addListener(object : ActorGestureListener() {
                                             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
                                                 selectionGender = 1
                                                 manFocus = 1
                                                 womanFocus = 0
-
                                                 manBtn.style = menuBtnStyle_700_160("gold", manFocus)
                                                 womanBtn.style = menuBtnStyle_700_160("gold", womanFocus)
-                                                //GenderStage().dispose()
-                                                //currentScreen = ScreenManager("gender")
-                                                super.tap(event, x, y, count, button)
+                                                return super.tap(event, x, y, count, button)
                                             }
                                             override fun longPress(actor: Actor?, x: Float, y: Float): Boolean {
                                                 infoGenderVisible = true
+                                                genderInfo.isVisible = infoGenderVisible
                                                 return super.longPress(actor, x, y)
                                             }
                                         })
                                         actor = manBtn
-
                                         /*manBtn.addListener(object : ClickListener() {
                                             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                                                 if (Gdx.input.isTouched) {
@@ -93,15 +95,12 @@ class GenderStage: Stage(viewport) {
                                                 return super.clicked(event, x, y)
                                             }
                                         })*/
-
                                     }).colspan(2).padBottom(ScreenHeight*0.01f)
                                 }.expand()
 //--------------------------------------------------------------------------------------------------
                                 row().let {
                                     val womanMenu = Container<WidgetGroup>()
                                     add(womanMenu.apply {
-
-
                                         womanBtn.addListener(object : ActorGestureListener() {
                                             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
                                                 selectionGender = 2
@@ -109,16 +108,11 @@ class GenderStage: Stage(viewport) {
                                                 manFocus = 0
                                                 manBtn.style = menuBtnStyle_700_160("gold", manFocus)
                                                 womanBtn.style = menuBtnStyle_700_160("gold", womanFocus)
-
-                                                //ScreenManager("gender").render(0.1f)
-                                                //viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())
-                                                // currentScreen.render(0.1f)
-                                                //GenderStage().dispose()
-                                                //currentScreen = ScreenManager("gender")
-                                                super.tap(event, x, y, count, button)
+                                                return super.tap(event, x, y, count, button)
                                             }
                                             override fun longPress(actor: Actor?, x: Float, y: Float): Boolean {
                                                 infoGenderVisible = true
+                                                genderInfo.isVisible = infoGenderVisible
                                                 return super.longPress(actor, x, y)
                                             }
                                         })
@@ -143,20 +137,21 @@ class GenderStage: Stage(viewport) {
                                         val okBtn = ImageTextButton("ОК", menuBtnStyle_300_160("gold"))
                                         okBtn.addListener(object: ChangeListener() {
                                             override fun changed(event: ChangeEvent?, actor: Actor?) {
-                                                MyGame().character1?.gender = when(selectionGender) {
+                                                val g: String = when(selectionGender) {
                                                     1 -> "Man"
                                                     2 -> "Woman"
                                                     else -> "Man"
                                                 }
+                                                MyGame(test).character1?.setGender(g)
                                                 genderCompletion = 1
+                                                CreatePersonStage.instance.changeBtn()
+
                                                 GenderStage().dispose()
                                                 currentScreen = ScreenManager("new")
                                             }
                                         })
                                         actor = okBtn
                                     }).padLeft(ScreenWidth * 0.01f)
-
-
                                     add(bottomPanel2.apply {
                                         val cancelBtn = ImageTextButton("Отмена", menuBtnStyle_300_160("gold"))
                                         cancelBtn.addListener(object : ChangeListener() {
@@ -172,8 +167,6 @@ class GenderStage: Stage(viewport) {
                     }
                 }
             })
-
-            val genderInfo = Container<WidgetGroup>()
             add(genderInfo.apply {
                 isVisible = infoGenderVisible
                 actor = Table().apply {
@@ -204,7 +197,6 @@ class GenderStage: Stage(viewport) {
                                             setWrap(true)
                                             pad(ScreenHeight *0.026f)
                                             setAlignment(Align.left)
-
                                         }
                                     }).height(ScreenHeight *0.7f).width(ScreenWidth *0.850f).expand()
                                 }

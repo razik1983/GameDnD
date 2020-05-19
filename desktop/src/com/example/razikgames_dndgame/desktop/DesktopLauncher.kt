@@ -14,7 +14,7 @@ object DesktopLauncher {
         config.height = 800
         config.resizable = false
         config.vSyncEnabled = false
-        LwjglApplication(MyGame(), config)
+        //LwjglApplication(MyGame(), config)
     }
 }
 

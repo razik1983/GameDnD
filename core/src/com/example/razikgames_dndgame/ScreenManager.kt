@@ -16,13 +16,13 @@ class ScreenManager (param: String): ScreenAdapter() {
     lateinit var mainStage: Stage
     init {
         when (param) {
-            "menu" -> mainStage = MenuStage()
+            "menu" -> mainStage = MenuStage.instance
             "login" -> mainStage = LoginStage()
             "load" -> mainStage = LoadingStage()
-            "new" -> mainStage = CreatePersonStage()
-            "gender" -> mainStage = GenderStage()
+            "new" -> mainStage = CreatePersonStage.instance
+            "gender" -> mainStage = GenderStage.instance
 
-            else -> MenuStage()
+            else -> MenuStage.instance
         }
     }
     //lateinit var mainStage: Stage

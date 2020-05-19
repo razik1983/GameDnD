@@ -1,6 +1,5 @@
 package com.example.razikgames_dndgame.Stage
 
-
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -17,10 +16,24 @@ import com.example.razikgames_dndgame.AppConstants.char2
 import com.example.razikgames_dndgame.AppConstants.char3
 import com.example.razikgames_dndgame.AppConstants.char4
 import com.example.razikgames_dndgame.AppConstants.char5
+import com.example.razikgames_dndgame.CreatePersonMenuVariables.resetCPVars
+import com.example.razikgames_dndgame.MenuGenderVariables.resetMGVars
 import com.example.razikgames_dndgame.Person
 
-
-class MenuStage : Stage(viewport) {
+class MenuStage private constructor(): Stage(viewport) {
+    private object SingletonHolder {
+        val HOLDER_INSTANCE = MenuStage()
+    }
+    companion object {
+        val instance: MenuStage
+            get() {
+                return SingletonHolder.HOLDER_INSTANCE
+            }
+        val test: ITest = TODO()
+    }
+    //val test = ITest
+    //val game = MyGame(test)
+    val text: String = MyGame(test).test2()
 
     init {
         val stageLayout = Table()
@@ -59,7 +72,9 @@ class MenuStage : Stage(viewport) {
                                     val descriptionBtn_1 = ImageTextButton("Создать нового героя", menuPortraitRightBtnStyle())
                                     descriptionBtn_1.addListener(object : ChangeListener() {
                                         override fun changed(event: ChangeEvent?, actor: Actor?) {
-                                            MyGame().character1 = Person()
+                                            MyGame(test).character1 = Person()
+                                            resetCPVars()
+                                            resetMGVars()
                                             currentScreen = ScreenManager("new")
                                         }
                                     })
@@ -158,7 +173,7 @@ class MenuStage : Stage(viewport) {
                                     actor = portraitBtn_5
                                 }).padLeft(ScreenWidth * 0.03f)
                                 add(description_5.apply {
-                                    val descriptionBtn_5 = ImageTextButton("Создать нового героя", menuPortraitRightBtnStyle())
+                                    val descriptionBtn_5 = ImageTextButton(text, menuPortraitRightBtnStyle())
                                     actor = descriptionBtn_5
                                 }).padRight(ScreenWidth * 0.03f).padLeft(ScreenWidth * 0.02f)
                             } else {
@@ -167,7 +182,7 @@ class MenuStage : Stage(viewport) {
                                     actor = portraitBtn_5
                                 }).padLeft(ScreenWidth * 0.03f)
                                 add(description_5.apply {
-                                    val descriptionBtn_5 = ImageTextButton("Создать нового героя", menuPortraitRightBtnStyle())
+                                    val descriptionBtn_5 = ImageTextButton(text, menuPortraitRightBtnStyle())
                                     actor = descriptionBtn_5
                                 }).padRight(ScreenWidth * 0.03f).padLeft(ScreenWidth * 0.02f)
                             }
@@ -198,3 +213,4 @@ class MenuStage : Stage(viewport) {
     }
 
 }*/
+

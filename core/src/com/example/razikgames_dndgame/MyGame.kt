@@ -64,14 +64,23 @@ object Fonts {
     }
 }
 
-open class MyGame : Game(), ApplicationListener {
+open class MyGame(test: ITest) : Game(), ApplicationListener {
+    private val test: ITest
+    init {
+        this.test = test
+    }
+
     var character1: Person? = null
     var character2: Person? = null
     var character3: Person? = null
     var character4: Person? = null
     var character5: Person? = null
 
+    fun test2(): String {
+        val a = MyGame(test)
+        return a.test.submitVar().toString()
 
+    }
 
     override fun create() {
         //assets = Assets()
